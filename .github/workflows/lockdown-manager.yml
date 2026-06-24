@@ -1,0 +1,66 @@
+name: RocketSwap Lockdown Manager
+
+on:
+  workflow_run:
+    workflows: ["Rocket League Patch Tracker"]
+    types:
+      - completed
+  workflow_dispatch:
+  push:
+    paths:
+      - 'rlsteambuild.txt'
+      - 'supportedbuild'
+
+permissions:
+  contents: write 
+
+jobs:
+  evaluate-lockdown:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Compare Builds and Determine State
+        run: |
+          # Read the files and trim any accidental whitespace or newlines using xargs
+          STEAM_BUILD=$(cat rlsteambuild.txt | xargs)
+          SUPPORTED_BUILD=$(cat supportedbuild | xargs)
+          CURRENT_LOCKDOWN=$(cat lockdown.txt | xargs)
+          
+          echo "Live Steam Build: '$STEAM_BUILD'"
+          echo "Supported Build: '$SUPPORTED_BUILD'"
+          echo "Current Lockdown: '$CURRENT_LOCKDOWN'"
+
+          # Compare the builds to determine the target state
+          if [ "$STEAM_BUILD" != "$SUPPORTED_BUILD" ]; then
+            TARGET_LOCKDOWN="update"
+          else
+            TARGET_LOCKDOWN="false"
+          fi
+
+          echo "Target Lockdown: '$TARGET_LOCKDOWN'"
+
+          if [ "$CURRENT_LOCKDOWN" != "$TARGET_LOCKDOWN" ]; then
+            echo "State mismatch detected. Updating lockdown.txt to '$TARGET_LOCKDOWN'..."
+            echo "$TARGET_LOCKDOWN" > lockdown.txt
+          else
+            echo "State is already correct. No action needed."
+          fi
+
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          git add lockdown.txt
+
+          if ! git diff --staged --quiet; then
+            NEW_STATE=$(cat lockdown.txt)
+            git commit -m "chore: auto-set lockdown state to '$NEW_STATE'"
+            git push
+            echo "Successfully pushed new lockdown state."
+          else
+            echo "No file changes detected by Git. Skipping push."
+          fi

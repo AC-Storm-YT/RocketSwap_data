@@ -1,0 +1,102 @@
+name: Rocket League Patch Tracker
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write 
+
+jobs:
+  check-and-send:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Fetch RSS, Check State, and Post to Discord
+        shell: pwsh
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOKUPDATE }}
+          EXPECTED_DISCORD_CHANNEL_ID: "1519165292801036348"
+        run: |
+          $rssUrl = "https://steamdb.info/api/PatchnotesRSS/?appid=252950"
+          
+          # Target the specific file in your repo
+          $stateFile = "rlsteambuild.txt"
+          
+          $lastGuid = if (Test-Path $stateFile) { Get-Content $stateFile } else { "" }
+          
+          try {
+              $webResponse = Invoke-WebRequest -Uri $rssUrl -Headers @{ "User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" }
+              [xml]$xml = $webResponse.Content
+              
+              $latestPatch = $xml.rss.channel.item[0]
+              
+              if ($null -ne $latestPatch) {
+                  $currentGuid = $latestPatch.guid.InnerText 
+                  
+                  # Exit if the GUID in rlsteambuild.txt matches the newest patch
+                  if ($currentGuid -eq $lastGuid) {
+                      Write-Output "No new updates found. Last patch is still $lastGuid."
+                      exit 0
+                  }
+                  
+                  Write-Output "New update detected: $currentGuid"
+                  
+                  $title = $latestPatch.title
+                  $link = $latestPatch.link
+                  $pubDate = $latestPatch.pubDate
+                  
+                  $dateObj = [datetime]::ParseExact($pubDate, 'ddd, dd MMM yyyy HH:mm:ss zzz', [System.Globalization.CultureInfo]::InvariantCulture)
+                  $isoDate = $dateObj.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
+                  
+                  $payload = @{
+                      username = "RL Patch Tracker"
+                      avatar_url = "https://steamdb.info/static/logos/512px.png"
+                      embeds = @(
+                          @{
+                              title = $title
+                              url = $link
+                              color = 240116
+                              timestamp = $isoDate
+                          }
+                      )
+                  } | ConvertTo-Json -Depth 5
+                  
+                  if (![string]::IsNullOrEmpty($env:DISCORD_WEBHOOK)) {
+                      $webhookUri = if ($env:DISCORD_WEBHOOK.Contains("?")) { "$($env:DISCORD_WEBHOOK)&wait=true" } else { "$($env:DISCORD_WEBHOOK)?wait=true" }
+                      $discordResponse = Invoke-RestMethod -Uri $webhookUri -Method Post -Body $payload -ContentType "application/json"
+
+                      if ($discordResponse.channel_id -and "$($discordResponse.channel_id)" -ne $env:EXPECTED_DISCORD_CHANNEL_ID) {
+                          Write-Warning "Discord webhook posted to channel $($discordResponse.channel_id), expected $env:EXPECTED_DISCORD_CHANNEL_ID. Check DISCORD_WEBHOOKUPDATE."
+                      }
+
+                      Write-Output "Successfully sent to Discord: $title"
+                      
+                      # Overwrite rlsteambuild.txt with the new GUID
+                      Set-Content -Path $stateFile -Value $currentGuid
+                  } else {
+                      Write-Error "DISCORD_WEBHOOK secret is missing."
+                  }
+              }
+          } catch {
+              Write-Error "Failed to process patch notes: $_"
+          }
+
+      - name: Commit and Push rlsteambuild.txt
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Stage your specific text file
+          git add rlsteambuild.txt
+          
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: update latest RL patch state in rlsteambuild.txt"
+            git push
+          else
+            echo "No state changes to commit."
+          fi
