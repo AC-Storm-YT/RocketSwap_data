@@ -1,6 +1,6 @@
 {
-  "version": "20260614050511",
-  "generatedAt": "2026-06-14T05:05:11+00:00",
+  "version": "20260708031342",
+  "generatedAt": "2026-07-08T03:13:42+00:00",
   "files": [
     {
       "path": "antennas/(Reward) Linguist.png",
@@ -9613,6 +9613,11 @@
       "sha256": "d5172ef6f02b391870dac704e741201ff1339c7dc25e2827e24fbd8ffac32d1e"
     },
     {
+      "path": "bodies/Dodge Viper GTS-R.png",
+      "size": 39908,
+      "sha256": "c0acb202f4fa4090cabbcf599d25651a9a4e510534bcb56df18ee114d571de20"
+    },
+    {
       "path": "bodies/Dominus GT.png",
       "size": 45715,
       "sha256": "f5b1acd499b7a61615efbb905225a90a4cd49400738879d8ac1e6f2b80fab65d"
@@ -10006,6 +10011,11 @@
       "path": "bodies/Masamune.png",
       "size": 40661,
       "sha256": "e343dbf999858fa7acb022c084a8fe69915be1495247c59b8762a91d10e2dc0c"
+    },
+    {
+      "path": "bodies/Maserati Stradale.png",
+      "size": 36972,
+      "sha256": "bdc19cf7db15b4638a80301c3c0d3e989b055ec4016e87bf1078e1d552dd3fbf"
     },
     {
       "path": "bodies/Maven.png",
@@ -10948,6 +10958,11 @@
       "sha256": "2d8dc5ecdf629d49cc60291a8afee6632adb55e39984497d71cfa36f6a36862f"
     },
     {
+      "path": "boosts/FIFA 2026.png",
+      "size": 160977,
+      "sha256": "37f9d9b7abea70b34183b44cf7c8824dc7cbf725281a6eae3478978690a826ef"
+    },
+    {
       "path": "boosts/Fireball.png",
       "size": 48725,
       "sha256": "c2e29fddd641cfbe6f65ae10e17e286ca529a014b520b6af520b901581326e12"
@@ -11103,6 +11118,11 @@
       "sha256": "0756fda8ee9c44c0c7b874996ea4f839eda30a610a260c74307e43dde01ce0dd"
     },
     {
+      "path": "boosts/Glare.png",
+      "size": 178875,
+      "sha256": "84c861307ef0bdc23610caf450b158f5dc7a632d560867ec648d7b091feb6b9a"
+    },
+    {
       "path": "boosts/Glimmerslag I.png",
       "size": 36349,
       "sha256": "40943a7f420332ea2e1369578f4262b52e199cc36dc393d38f73af949a36030c"
@@ -11221,6 +11241,11 @@
       "path": "boosts/Incantor RD.png",
       "size": 23969,
       "sha256": "c9a22856bfa88e721011bc0ffd8ae696258602bbd14838049e069d3f63f13a7b"
+    },
+    {
+      "path": "boosts/Infared.png",
+      "size": 95020,
+      "sha256": "906abc926e8d92a5e9b2608b5694a3411d02d5a8ffe6e243b7707cf08925a5df"
     },
     {
       "path": "boosts/InfoSec.png",
@@ -11346,6 +11371,11 @@
       "path": "boosts/Lewis Hamilton - Street Legal.png",
       "size": 23060,
       "sha256": "c8cfad1d45dd4aacf55b58a69fa49c4e37041d23deba28e405a738759d7e42d5"
+    },
+    {
+      "path": "boosts/Lifeline.png",
+      "size": 169196,
+      "sha256": "187da56bae18dcb1f57ad190426c0b25363b146305e442abe6aba58926077e8c"
     },
     {
       "path": "boosts/Lightning Yellow.png",
