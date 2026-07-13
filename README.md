@@ -1,261 +1,136 @@
-﻿# Rocket Swap
+# Rocket Swap
 
-Rocket Swap is a Windows mod manager and item swapper for Rocket League. It helps you import, organize, preview, select, launch, and restore Rocket League cosmetic mods.
+Rocket Swap is a Windows mod manager and local visual swapper for Rocket League. It imports and organizes cosmetic mods, generates visual item swaps, prepares selected changes for launch, and restores clean files after the game closes.
 
-> Rocket Swap is not affiliated with, endorsed by, or sponsored by Psyonix, Epic Games, or Rocket League. Use mods responsibly and keep backups.
+> [!IMPORTANT]
+> Rocket Swap is an independent community project. It is not affiliated with, endorsed by, or sponsored by Psyonix, Epic Games, or Rocket League. Modifying game files can break after a Rocket League update and may trigger antivirus warnings. Use the app at your own risk and keep backups.
 
----
+## Project status
 
-## Status
-
-Rocket Swap is currently in private beta.
-
-Access is controlled through Discord roles. For now, only the **Beta Tester** role grants app access. Guest and staff-style roles can appear in the profile UI, but they do not grant any kind of app access.
-
----
-
-## Security & False Positives
-
-Rocket Swap modifies local Rocket League package files when applying mods, restores vanilla files from backups, launches Rocket League through your installed launcher, and includes helper scripts for swap generation. Antivirus tools may flag this type of behavior because it looks similar to generic patching or automation software.
-
-Rocket Swap does not:
-
-* Steal Discord credentials.
-* Read private Discord messages.
-* Ask for your Discord password.
-* Hook into Rocket League memory.
-* Include paid/proprietary Rocket League item files.
-* Require your Epic Games or Steam password.
-
-Rocket Swap does:
-
-* Ask Discord for identity and server-role verification.
-* Store a protected local auth session under `%AppData%\Rocket Swap\Auth`.
-* Store a local install ID after user consent.
-* Back up original game files before replacing them.
-* Restore launcher-applied mods after Rocket League closes.
-
----
-
-## Core Features
-
-* Discord OAuth login with Cloudflare Worker role validation.
-* Private beta access using the `canUseApp` permission.
-* Rocket League install-folder detection and validation.
-* Mod grid with search, category filters, selectable cards, previews, paint tags, quality tags, and replacement labels.
-* Launcher flow that applies selected mods only when launching the game.
-* Automatic restore of launcher-applied mods after Rocket League closes.
-* Import support for `.upk`, `.bnk`, Rocket Swap exports, mod packs, and supported AlphaConsole-style ZIPs.
-* Export support for single mods and multi-mod packs.
-* Safe removal flow that restores vanilla files before deleting active mods.
-* Swaps tab powered by the embedded Rocket Swap engine.
-* Wheel paint generation and colored Gold Rush boost generation.
-* Icon cache synced from the RocketSwap data repository.
-* Multiple UI themes, streamer mode, and optional error logging.
-
----
-
-## Supported Mod Categories
-
-Rocket Swap organizes installed mods under the local `mods` folder next to the app executable.
-
-Standard categories:
-
-* Antenna
-* Avatar Border
-* Banner
-* Body
-* Boost
-* Boost Audio
-* Decal
-* Engine Audio
-* Goal Explosion
-* Hat / Topper
-* Paint
-* Trail
-* Wheels
-
-Custom texture categories:
-
-* Custom Decals
-* Custom Balls
-* Custom Boost Meter
-
-Generated/special mod flows:
-
-* Painted wheels
-* Colored Gold Rush boost
-* Custom decal packs
-* Custom ball textures
-* Custom boost meter textures
-
----
-
-## Discord Access & Privacy
-
-Rocket Swap uses Discord OAuth so the app can verify that the signed-in account belongs to the official Rocket Swap Discord and has the required beta role.
-
-Current Discord entry point:
+Rocket Swap is currently in private beta. Access is verified through Discord and depends on the permissions returned by the Rocket Swap authentication service.
 
 [Join the Rocket Swap Discord](https://discord.gg/dGxtZagQgB)
 
-The app asks for Discord authorization in the login window. After approval, the browser shows a short code that is pasted back into Rocket Swap.
+## Features
 
-The auth system validates:
+- Import, search, filter, preview, export, and safely remove Rocket League mods.
+- Apply selected mods only for a Rocket League launch, then restore the original files when the game exits.
+- Generate local item swaps by selecting an item to equip and an item to display.
+- Apply supported paint variants, including painted items and custom Gold Rush colors.
+- Add and swap player titles. Title changes are local and are limited to supported menu and inventory views.
+- Spoof the locally displayed playlist rank and MMR. This does not change matchmaking, progression, rewards, or server-side rank data.
+- Browse and install workshop maps from [BakkesPlugins](https://bakkesplugins.com/maps).
+- Launch through Epic Games, Steam, or Heroic, with automatic detection or a manual platform override.
+- Import supported `.upk`, `.bnk`, Rocket Swap export ZIP, mod-pack ZIP, and AlphaConsole-style ZIP files.
+- Automatically maintain backups of modified game packages and affected profile saves.
+- Check Rocket Swap updates and Rocket League version compatibility.
+- Discord OAuth access control, themes, streamer mode, optional error logging, and an in-app operation console.
 
-* Discord user identity.
-* Server membership.
-* Required role membership.
-* Whether the account is allowed by the private `permissions.json` file.
-* Whether the current install has user consent.
+## Requirements
 
-The only app permission currently used by Rocket Swap is:
+For the app:
 
-* `canUseApp`
+- Windows 10 or 11.
+- Rocket League installed through Epic Games, Steam, or Heroic.
+- Internet access for Discord authorization, compatibility/update checks, and online content such as workshop maps.
+- A Discord account with access granted by the Rocket Swap server.
 
----
+## Getting started
 
-## How To Use
+1. Download the installer.
+2. Start Rocket Swap and accept the install-ID consent prompt.
+3. Authorize with Discord in your browser, then return the generated code to the app when prompted.
+4. Select the Rocket League installation folder named `rocketleague`.
+5. Import a mod or configure a visual swap.
+6. Select the changes you want and open **Launch**.
+7. Start Rocket League through Rocket Swap so it can stage and later restore the selected changes.
 
-1. Join the official Rocket Swap Discord.
-2. Make sure your Discord account has the Beta Tester role.
-3. Open Rocket Swap.
-4. Accept the local install-ID consent prompt.
-5. Click **Authorize with Discord**.
-6. Approve the Discord OAuth request in your browser.
-7. Paste the generated code back into Rocket Swap.
-8. Select your Rocket League installation folder named `rocketleague`.
-9. Import mods, generate swaps, or select existing mods.
-10. Press **Launch** to apply the selected mods and start Rocket League.
+Do not close Rocket Swap while it is applying or restoring files. The app blocks unsafe navigation and shutdown during critical operations, but an interrupted process can still require recovery on the next start.
 
-Selected mods become active when Rocket Swap launches the game. After Rocket League closes, launcher-applied mods are restored back to the clean game state.
+## App sections
 
----
+| Section | Purpose |
+| --- | --- |
+| **Dashboard** | Account, app status, game news, changelog, and common actions. |
+| **Custom Items** | Installed mod library, categories, search, selection, import, export, and removal. |
+| **Workshop Maps** | Search, filter, download, and install maps listed by BakkesPlugins. |
+| **Item Swapping** | Pick an equipped item, a visual donor, and supported paint settings to generate a local mod. |
+| **Titles** | Select, apply, restore, and locally swap supported player titles. |
+| **Rank Spoofing** | Change the rank and MMR shown by the local client for supported playlists. |
+| **Launch** | Choose mods and launcher options, stage changes, and launch Rocket League. |
+| **Guide** | In-app quick start and recovery guidance. |
+| **Settings** | Change the Rocket League folder and run compatibility/update checks. |
+| **Console** | View app, launcher, backend, and restore activity. |
 
-## Launcher
+## Mods and supported imports
 
-The launcher page handles the full game-start flow for modded sessions.
-
-Supported launcher modes:
-
-* Auto detect
-* Epic Games
-* Steam
-* Heroic
-
-Launcher options include:
-
-* Launch without mods.
-* Launch without Easy Anti-Cheat.
-* JoyToKey compatibility.
-* Manual launcher platform override.
-
-Rocket Swap checks if Rocket League is already running before applying mods. If files were modified for a launcher session, Rocket Swap tracks them and restores them when the game exits.
-
----
-
-## Swaps Tab
-
-The Swaps tab embeds the Rocket Swap engine directly inside the app.
-
-Current engine:
-
-* Rocket Swap 1.0
-
-The bundled item database currently contains more than 9,000 Rocket League items across 18 categories. The engine lets you choose a target item, choose a donor item, and generate a local mod folder automatically.
-
-Supported swap categories include:
-
-* Body
-* Decal
-* Wheels
-* Rocket Boost
-* Goal Explosion
-* Trail
-* Paint Finish
-* Player Banner
-* Antenna
-* Topper
-* Boost Audio
-* Engine Audio
-* Avatar Border
-
-Some database categories are visible but marked unsupported when the engine cannot safely generate a mod for them yet.
-
-The engine can also generate:
-
-* Painted wheel variants.
-* Colored Gold Rush boost variants.
-
-Generated mods are routed into the normal Rocket Swap `mods` folder and then appear in the main mod grid.
-
----
-
-## Importing Mods
-
-Rocket Swap can import:
-
-* `.upk` files
-* `.bnk` files
-* Single Rocket Swap export ZIPs
-* Rocket Swap mod pack ZIPs named `mods.zip`
-* Supported AlphaConsole-style ZIPs
-
-Imported mods are placed into the selected category and named using the item name plus replacement metadata when available.
-
-Rocket Swap blocks unsafe ZIP paths during extraction so archives cannot write outside the intended import folder.
-
----
-
-## Exporting Mods
-
-The export window lets you select installed mods and create a portable ZIP.
-
-Single-mod exports include:
-
-* Mod files
-* Category metadata
-* Replacement metadata
-* Rocket Swap export manifest
-
-Multi-mod exports create a pack with metadata for every selected mod.
-
-Rocket Swap skips backup files and existing export metadata when building an export.
-
----
-
-## Removing Mods
-
-The remove window lists installed mods by category and lets you delete selected mods safely.
-
-If a selected mod is currently active, Rocket Swap attempts to restore the vanilla game file from backup before deleting the mod folder. If the restore cannot be completed, the app avoids deleting files that would leave Rocket League in a bad state.
-
-Custom texture categories use the bundled backend restore actions so generated texture changes can be reverted properly.
-
-## Cloudflare Auth Worker
-
-The auth worker lives in:
+Rocket Swap keeps the mod library beside the executable:
 
 ```text
-cloudflare\rocket-swap-auth-worker
+mods\<Category>\<Mod Name>\
 ```
 
-It handles:
+Standard import categories include Antenna, Avatar Border, Banner, Body, Boost, Boost Audio, Decal, Engine Audio, Goal Explosion, Hat/Topper, Paint, Titles, Trail, and Wheels.
 
-* Discord OAuth callback flow.
-* Session signing.
-* Discord guild and role validation.
-* GitHub-hosted permission config loading.
-* Active-user tracking.
-* Audit/usage webhooks.
-* Health checks.
+Supported custom texture categories include Custom Decals, Custom Balls, and Custom Boost Meter. Custom Bodies and Custom Wheels are beta-gated in the importer. Paint support is still evolving, so some item and paint combinations can remain at their default color.
 
-The private permissions repository should expose a `permissions.json` file. The current app expects that file to define Rocket Swap roles and the `canUseApp` permission.
+The importer accepts:
 
-Never commit secrets. Configure Cloudflare, Discord, GitHub, and webhook tokens as Worker secrets or repository secrets.
+- Individual `.upk` and `.bnk` packages.
+- Single-mod Rocket Swap export archives.
+- Rocket Swap pack archives, conventionally named `mods.zip`.
+- Supported AlphaConsole-style ZIP archives.
 
----
+Generated item/title swaps are written into the same mod library and can be selected in the normal launch flow.
 
-## Community
+## Launch and restore behavior
 
-[Join the Rocket Swap Discord](https://discord.gg/dGxtZagQgB)
+Rocket Swap is designed to leave Rocket League clean while no managed session is active:
+
+1. Original packages and affected profile saves are backed up.
+2. Selected mods and generated changes are staged immediately before launch.
+3. Rocket League is started through the selected launcher.
+4. Rocket Swap watches the game process.
+5. Managed changes are restored after Rocket League exits.
+
+The launcher supports automatic platform detection plus Epic Games, Steam, and Heroic overrides. Optional controls include launching without selected mods, a no-EAC launch option, and JoyToKey compatibility when JoyToKey is installed.
+
+The no-EAC option changes launcher arguments/settings; it is not an anti-cheat bypass and does not make restricted online play available.
+
+## Local data and recovery
+
+Runtime data is stored under:
+
+```text
+%APPDATA%\RocketSwapApp\
+├── Auth\
+├── Backups\
+├── Backend\
+├── Config\
+├── cache\
+└── settings.json
+```
+
+This folder contains the protected Discord session, consent/install-ID records, original-file backups, profile-save mirrors, generated backend configuration, cached icons, and app preferences. Older `%APPDATA%\Rocket Swap`, `%APPDATA%\RocketSwap`, and `%APPDATA%\RocketSwapEngine` data is migrated automatically when possible.
+
+If a launch or restore is interrupted:
+
+1. Close Rocket League.
+2. Reopen Rocket Swap and allow its startup integrity checks to finish.
+3. Review the **Console** for the first reported restore error.
+4. Confirm the configured `rocketleague` folder in **Settings**.
+5. Use the relevant restore action for titles, ranks, or generated changes before launching again.
+
+Do not delete `%APPDATA%\RocketSwapApp\Backups` while recovery is pending.
+
+## Privacy and security
+
+Rocket Swap uses Discord OAuth to verify identity, server membership, and app permissions. It stores a random install ID only after consent and saves the authenticated session under `%APPDATA%\RocketSwapApp\Auth`.
+
+Rocket Swap does not ask for your Discord, Epic Games, or Steam password. The desktop client does not need access to Discord messages and does not hook Rocket League process memory. It does modify local package/profile files and can update launcher settings for requested launch options, which is why antivirus products may classify compiled helpers as suspicious.
+
+Only download builds from project links you trust.
+
+## Disclaimer
+
+Rocket League updates can invalidate package offsets and backups. The app performs game-version checks and can lock modification features when the installed build is unsupported, but no automated check can guarantee compatibility or account safety. Local visual swaps do not grant inventory items, alter ownership, or change server-side progression.
