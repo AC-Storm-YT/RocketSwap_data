@@ -3,7 +3,11 @@
 Rocket Swap is a Windows mod manager and local visual swapper for Rocket League. It imports and organizes cosmetic mods, generates visual item swaps, prepares selected changes for launch, and restores clean files after the game closes.
 
 > [!IMPORTANT]
-> Rocket Swap is an independent community project. It is not affiliated with, endorsed by, or sponsored by Psyonix, Epic Games, or Rocket League. Modifying game files can break after a Rocket League update and may trigger antivirus warnings. Use the app at your own risk and keep backups.
+> Rocket Swap is an independent community project. It is not affiliated with, endorsed by, or sponsored by Psyonix, Epic Games, or Rocket League.
+>
+> Third-party mods are permitted only when they comply with the [Epic Games Terms of Service](https://legal.epicgames.com/epicgames/tos) and [Rocket League Code of Conduct](https://www.rocketleague.com/code-of-conduct). Rocket Swap modifies local game and profile files and is not officially supported. Violating those rules may result in account restrictions or a permanent ban.
+>
+> Use Rocket Swap entirely at your own risk and keep backups.
 
 ## Project status
 
