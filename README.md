@@ -28,7 +28,7 @@ Rocket Swap is currently in private beta. Access is verified through Discord and
 - Import supported `.upk`, `.bnk`, Rocket Swap export ZIP, mod-pack ZIP, and AlphaConsole-style ZIP files.
 - Automatically maintain backups of modified game packages and affected profile saves.
 - Check Rocket Swap updates and Rocket League version compatibility.
-- Discord OAuth access control, themes, streamer mode, optional error logging, and an in-app operation console.
+- Discord OAuth access control
 
 ## Requirements
 
