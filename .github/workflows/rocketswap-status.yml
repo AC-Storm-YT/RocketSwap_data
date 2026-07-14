@@ -61,19 +61,19 @@ jobs:
             APP_STATUS="MAINTENANCE"
             COLOR=16711680 # Red
             DETAIL="The mod network is temporarily offline for upgrades."
-            IMAGE_URL="https://raw.githubusercontent.com/AC-Storm-YT/RocketSwap_data/refs/heads/main/status/RocketSwap_Maintenance_Banner.png"
+            IMAGE_URL="https://raw.githubusercontent.com/AC-Storm-YT/RocketSwap_data/refs/heads/main/status/RocketSwap_Maintenance_Banner2.png"
           elif [ "$STATUS" == "false" ]; then
             # Lockdown is FALSE -> OPERATIONAL/GREEN
             APP_STATUS="OPERATIONAL"
             COLOR=65280 # Green
             DETAIL="All systems are running normally. Happy modding!"
-            IMAGE_URL="https://raw.githubusercontent.com/AC-Storm-YT/RocketSwap_data/refs/heads/main/status/RocketSwap_Operational_Banner.png"
+            IMAGE_URL="https://raw.githubusercontent.com/AC-Storm-YT/RocketSwap_data/refs/heads/main/status/RocketSwap_Operational_Banner2.png"
           elif [ "$STATUS" == "update" ]; then
             # Lockdown is UPDATE -> UPDATE REQUIRED/ORANGE
             APP_STATUS="UPDATING"
             COLOR=16753920 # Orange
             DETAIL="RocketSwap requires an update to support the latest Rocket League patch."
-            IMAGE_URL="https://raw.githubusercontent.com/AC-Storm-YT/RocketSwap_data/refs/heads/main/status/RocketSwap_Updating_Banner.png"
+            IMAGE_URL="https://raw.githubusercontent.com/AC-Storm-YT/RocketSwap_data/refs/heads/main/status/RocketSwap_Updating_Banner2.png"
           else
             APP_STATUS="UNKNOWN"
             COLOR=8421504 # Gray
