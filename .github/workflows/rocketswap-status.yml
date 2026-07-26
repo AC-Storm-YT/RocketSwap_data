@@ -1,6 +1,9 @@
 name: RocketSwap Status Monitor
 
 on:
+  release:
+    types:
+      - published
   workflow_run:
     workflows: ["RocketSwap Lockdown Manager"]
     types:
@@ -26,15 +29,31 @@ jobs:
 
       - name: Read files and update Discord
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOKSTATUS }}
           STATUS_CHANNEL_ID: "1519165596556726432"
           STATUS_MESSAGE_ID: "1519172961108623553"
         run: |
           STATUS=$(cat lockdown.txt | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')
 
-          if [ -f "version.txt" ]; then
-            VERSION=$(cat version.txt | tr -d '\n' | tr -d '\r')
+          VERSION=""
+          RELEASE_API_URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/latest"
+
+          if RELEASE_JSON=$(curl -fsSL --retry 3 \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "$RELEASE_API_URL"); then
+            VERSION=$(printf '%s' "$RELEASE_JSON" | jq -r '.tag_name // empty' 2>/dev/null || true)
           else
+            echo "::warning::Could not read the latest GitHub release; falling back to version.txt."
+          fi
+
+          if [ -z "$VERSION" ] && [ -f "version.txt" ]; then
+            VERSION=$(tr -d '\r\n' < version.txt)
+          fi
+
+          if [ -z "$VERSION" ]; then
             VERSION="Unknown"
           fi
 
