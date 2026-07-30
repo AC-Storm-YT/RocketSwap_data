@@ -43,8 +43,8 @@ For the app:
 ## Getting started
 
 1. Download the installer.
-2. Start Rocket Swap and accept the install-ID consent prompt.
-3. Authorize with Discord in your browser, then return the generated code to the app when prompted.
+2. Start Rocket Swap, review the Terms of Service and Privacy Policy, check the acknowledgement, and select **Accept & Continue**.
+3. Authorize with Discord in your browser, then return the generated code to the app when prompted. Rocket Swap creates an app-specific Windows device key for this authorization; it does not read hardware serial numbers.
 4. Select the Rocket League installation folder named `rocketleague`.
 5. Import a mod or configure an item, title, or local visual change.
 6. Select the changes you want under **Equip Items**, then open **Launch**.
@@ -117,7 +117,7 @@ Runtime data is stored under:
 `-- settings.json
 ```
 
-This folder contains the protected Discord session, consent/install-ID records, original-file backups, profile-save mirrors, generated backend configuration, cached icons, and app preferences. Older `%APPDATA%\Rocket Swap`, `%APPDATA%\RocketSwap`, and `%APPDATA%\RocketSwapEngine` data is migrated automatically when possible.
+This folder contains the protected Discord session, legal-acceptance receipt, non-secret device-key metadata, legacy migration records where applicable, original-file backups, profile-save mirrors, generated backend configuration, cached icons, and app preferences. The private device key remains in the selected Windows Key Storage Provider. Older `%APPDATA%\Rocket Swap`, `%APPDATA%\RocketSwap`, and `%APPDATA%\RocketSwapEngine` data is migrated automatically when possible.
 
 If a launch or restore is interrupted:
 
@@ -131,7 +131,9 @@ Do not delete `%APPDATA%\RocketSwapApp\Backups` while recovery is pending.
 
 ## Privacy and security
 
-Rocket Swap uses Discord OAuth to verify identity, server membership, and app permissions. It stores a random install ID only after consent and saves the authenticated session under `%APPDATA%\RocketSwapApp\Auth`.
+Rocket Swap uses Discord OAuth to verify identity, server membership, and app permissions. Before authentication, the app presents the current versioned Terms of Service and Privacy Policy and requires an unchecked acknowledgement followed by **Accept & Continue**. The service records the exact accepted document versions and content hashes.
+
+New authorizations use an app-specific ECDSA P-256 device key created through Windows CNG. Rocket Swap prefers TPM-backed storage when available and otherwise uses the Windows software key provider with a non-exportable policy. Only the public key and derived key identifier are sent to the authentication service; motherboard, CPU, disk, firmware, MAC-address, and other raw hardware identifiers are not collected. Existing installations can migrate their earlier random installation link, and **Change PC** provides a fresh-Discord-authentication replacement flow that revokes older sessions.
 
 Rocket Swap does not ask for your Discord, Epic Games, or Steam password. The desktop client does not need access to Discord messages and does not hook Rocket League process memory. It does modify local package/profile files and can update launcher settings for requested launch options, which is why antivirus products may classify compiled helpers as suspicious.
 
